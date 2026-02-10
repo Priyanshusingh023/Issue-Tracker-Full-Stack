@@ -31,38 +31,7 @@ This project demonstrates complete end-to-end development including authenticati
 * JWT Authentication
 * bcrypt.js
 
-## Project Structure
 
-```
-issue-tracker-project
-│
-├── issue-tracker-react   # Frontend React Application
-└── backend               # Backend Express Server
-```
-
-## Installation & Setup
-
-### Clone repository
-
-```
-git clone <your-repo-link>
-```
-
-### Backend setup
-
-```
-cd backend
-npm install
-npm start
-```
-
-### Frontend setup
-
-```
-cd issue-tracker-react
-npm install
-npm run dev
-```
 
 ## Learning Outcomes
 
