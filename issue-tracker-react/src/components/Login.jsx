@@ -5,7 +5,7 @@ function Login({ setLoggedIn, setShowLogin }) {
     const [password, setPassword] = useState("");
 
     const handleLogin = async () => {
-        const res = await fetch("http://localhost:5000/login", {
+        const res = await fetch("https://issue-tracker-full-stack.onrender.com/login", {
             method: "POST",
             headers: {
                 "content-Type": "application/json"

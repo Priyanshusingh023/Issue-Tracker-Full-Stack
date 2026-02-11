@@ -18,7 +18,7 @@ function App() {
 
   // fetch issues
   useEffect(() => {
-    fetch("http://localhost:5000/issues",{
+    fetch("https://issue-tracker-full-stack.onrender.com/issues",{
       headers:{
         Authorization:localStorage.getItem("token")
       }
@@ -39,7 +39,7 @@ function App() {
   function handleAddinput() {
     if (newIssue.trim() === "") return;
 
-    fetch("http://localhost:5000/issues", {
+    fetch("https://issue-tracker-full-stack.onrender.com/issues", {
       method: "POST",
       headers: {
         "content-Type": "application/json",
@@ -53,7 +53,7 @@ function App() {
     })
       .then(response => response.json())
       .then(() => {
-        fetch("http://localhost:5000/issues",{headers: {
+        fetch("https://issue-tracker-full-stack.onrender.com/issues",{headers: {
     Authorization: localStorage.getItem("token")}
   })
           .then(res => res.json())
@@ -74,7 +74,7 @@ function App() {
   }
 
   function toggleStatus(id) {
-    fetch(`http://localhost:5000/issues/${id}/status`, {
+    fetch(`https://issue-tracker-full-stack.onrender.com/issues/${id}/status`, {
       method: "PATCH",
       headers: {
   "Content-Type": "application/json",
@@ -83,7 +83,7 @@ function App() {
     })
       .then(res => res.json())
       .then(() => {
-        fetch("http://localhost:5000/issues",{
+        fetch("https://issue-tracker-full-stack.onrender.com/issues",{
           headers: {
     Authorization: localStorage.getItem("token")
   }
@@ -101,7 +101,7 @@ function App() {
   }
 
   function deleteIssue(id) {
-    fetch(`http://localhost:5000/issues/${id}`, {
+    fetch(`https://issue-tracker-full-stack.onrender.com/issues/${id}`, {
       method: "DELETE",
       headers: {
   "Content-Type": "application/json",
@@ -109,7 +109,7 @@ function App() {
 },
     })
       .then(() => {
-        fetch("http://localhost:5000/issues",{
+        fetch("https://issue-tracker-full-stack.onrender.com/issues",{
           headers: {
     Authorization: localStorage.getItem("token")
   }

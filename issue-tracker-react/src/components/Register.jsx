@@ -38,7 +38,7 @@ function Register({ setLoggedIn, setShowLogin }) {
 
         setLoading(true);
         try {
-            const res = await fetch("http://localhost:5000/register", {
+            const res = await fetch("https://issue-tracker-full-stack.onrender.com/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
