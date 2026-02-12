@@ -38,7 +38,7 @@ function Register({ setLoggedIn, setShowLogin }) {
 
         setLoading(true);
         try {
-            const res = await fetch("https://issue-tracker-full-stack.onrender.com/register", {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

@@ -10,7 +10,7 @@ function App() {
   const [newIssue, setNewIssue] = useState("");
   const [newDescription, setNewDescription] = useState("");
   const [newPlace, setNewPlace] = useState("");
-  const [showLogin,setShowLogin]=useState("");
+  const [showLogin, setShowLogin] = useState("");
 
   const [loggedIn, setLoggedIn] = useState(
     localStorage.getItem("token") ? true : false
@@ -18,19 +18,19 @@ function App() {
 
   // fetch issues
   useEffect(() => {
-    fetch("https://issue-tracker-full-stack.onrender.com/issues",{
-      headers:{
-        Authorization:localStorage.getItem("token")
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/issues`, {
+      headers: {
+        Authorization: localStorage.getItem("token")
       }
     })
       .then((response) => response.json())
       .then((data) => {
-  if (Array.isArray(data)) {
-    setIssues(data);
-  } else {
-    console.log("Unexpected response:", data);
-  }
-})
+        if (Array.isArray(data)) {
+          setIssues(data);
+        } else {
+          console.log("Unexpected response:", data);
+        }
+      })
       .catch((error) => {
         console.error("Error fetching issues:", error);
       });
@@ -39,7 +39,7 @@ function App() {
   function handleAddinput() {
     if (newIssue.trim() === "") return;
 
-    fetch("https://issue-tracker-full-stack.onrender.com/issues", {
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/issues`, {
       method: "POST",
       headers: {
         "content-Type": "application/json",
@@ -53,16 +53,18 @@ function App() {
     })
       .then(response => response.json())
       .then(() => {
-        fetch("https://issue-tracker-full-stack.onrender.com/issues",{headers: {
-    Authorization: localStorage.getItem("token")}
-  })
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/issues`, {
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        })
           .then(res => res.json())
           .then(data => {
             if (Array.isArray(data)) {
-          setIssues(data);
-               } else {
-                 console.log("Unexpected response:", data);
-  }
+              setIssues(data);
+            } else {
+              console.log("Unexpected response:", data);
+            }
             setNewIssue("");
             setNewDescription("");
             setNewPlace("");
@@ -74,61 +76,61 @@ function App() {
   }
 
   function toggleStatus(id) {
-    fetch(`https://issue-tracker-full-stack.onrender.com/issues/${id}/status`, {
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/issues/${id}/status`, {
       method: "PATCH",
       headers: {
-  "Content-Type": "application/json",
-  Authorization: localStorage.getItem("token")
-},
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
+      },
     })
       .then(res => res.json())
       .then(() => {
-        fetch("https://issue-tracker-full-stack.onrender.com/issues",{
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/issues`, {
           headers: {
-    Authorization: localStorage.getItem("token")
-  }
+            Authorization: localStorage.getItem("token")
+          }
         })
           .then(res => res.json())
           .then((data) => {
-                if (Array.isArray(data)) {
-    setIssues(data);
-  } else {
-    console.log("Unexpected response:", data);
-  }
+            if (Array.isArray(data)) {
+              setIssues(data);
+            } else {
+              console.log("Unexpected response:", data);
+            }
           });
       })
       .catch(err => console.error(err));
   }
 
   function deleteIssue(id) {
-    fetch(`https://issue-tracker-full-stack.onrender.com/issues/${id}`, {
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/issues/${id}`, {
       method: "DELETE",
       headers: {
-  "Content-Type": "application/json",
-  Authorization: localStorage.getItem("token")
-},
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
+      },
     })
       .then(() => {
-        fetch("https://issue-tracker-full-stack.onrender.com/issues",{
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/issues`, {
           headers: {
-    Authorization: localStorage.getItem("token")
-  }
+            Authorization: localStorage.getItem("token")
+          }
         })
           .then(res => res.json())
           .then((data) => {
             if (Array.isArray(data)) {
-    setIssues(data);
-  } else {
-    console.log("Unexpected response:", data);
-  }
+              setIssues(data);
+            } else {
+              console.log("Unexpected response:", data);
+            }
           });
       })
       .catch(err => console.error(err));
   }
   function handleLogout() {
-  localStorage.removeItem("token");  
-  setLoggedIn(false);                 
-}
+    localStorage.removeItem("token");
+    setLoggedIn(false);
+  }
 
   // If NOT logged in → show login page
   if (!loggedIn) {
@@ -158,7 +160,7 @@ function App() {
 
   // If logged in → show dashboard
   return (
-   <IssueList
+    <IssueList
       issues={issues}
       newIssue={newIssue}
       setNewIssue={setNewIssue}
@@ -170,7 +172,7 @@ function App() {
       toggleStatus={toggleStatus}
       deleteIssue={deleteIssue}
       handleLogout={handleLogout}
-     
+
     />
   );
 }
