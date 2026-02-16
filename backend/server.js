@@ -22,7 +22,7 @@ mongoose.connect(process.env.MONGO_URI)
 const issueSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, default: "" },
-  place: { type: String, required:true },
+  place: { type: String, required: true },
   status: {
     type: String,
     default: "open"
@@ -38,7 +38,11 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 // ===== 5. JWT Secret =====
-const JWT_SECRET = "yogdaan_secret_key";
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  console.error("FATAL ERROR: JWT_SECRET is not defined.");
+  process.exit(1);
+}
 
 // ===== Auth Middleware =====
 function authMiddleware(req, res, next) {
@@ -62,11 +66,19 @@ function authMiddleware(req, res, next) {
 // ===== 6. Register Route =====
 app.post("/register", async (req, res) => {
   try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const { username, email, password } = req.body;
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
-      username: req.body.username,
-      email: req.body.email,
+      username,
+      email,
       password: hashedPassword
     });
 
